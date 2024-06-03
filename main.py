@@ -9,5 +9,10 @@ def question1_2():
     print("\nQuestion2 :\nNombre max de possibilités :", 2**max(n_objets))
 
 
+# Question 3 :
+# Utilité maximale pour un poids inférieur ou égal à 0.6 : 7.6 avec 6 objets pour un poids total de 0.6
+
+
 if __name__ == '__main__':
     question1_2()
+

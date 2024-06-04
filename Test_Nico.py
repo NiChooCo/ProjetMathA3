@@ -30,7 +30,7 @@ dico = {
     "Rustines": [0.05, 1.5]
 }
 
-def question6(poids_max):
+def question10(poids_max):
     poidsmax = 0
     utilitemax = 0
     objetmax = []
@@ -40,10 +40,10 @@ def question6(poids_max):
         utilite = 0
         objet = []
         for j in range(len(dico)):
-            if i & 1 << j:
-                poids += dico[list(dico.keys())[j]][0]
-                utilite += dico[list(dico.keys())[j]][1]
-                objet.append(list(dico.keys())[j])
+            #if i & 1 << j:
+            poids += dico[list(dico.keys())[j]][0]
+            utilite += dico[list(dico.keys())[j]][1]
+            objet.append(list(dico.keys())[j])
         if poids <= poids_max and utilite > utilitemax:
             poidsmax = poids
             utilitemax = utilite

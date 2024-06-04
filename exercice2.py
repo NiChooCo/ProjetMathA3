@@ -58,12 +58,26 @@ def online3():
     """
     pass
 
-def offline1():
+
+def offline1(dico):
     """
     Rangement en ne prenant en compte que la longeur des marchandises et on peut les trier au départ
     :return:
     """
-    pass
+    train = []
+    longueur_wagon = 11.583
+    longueur = 0
+    wagon = []
+    dico_tri = sorted(dico.items(), key=lambda objet: objet[1][0], reverse=True)
+    while len(dico_tri) != 0:
+        wagon.append(dico_tri[0][0])
+        longueur_wagon -= dico_tri[0][1][0]
+        dico_tri.pop(0)
+
+
+        print(dico_tri[0][1][0])
+
+    #print("On a", len(train), "wagons pour mettre tous les objets dans le train.")
 
 def offline2():
     """

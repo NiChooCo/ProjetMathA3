@@ -39,20 +39,34 @@ def question5(n):
 
     print(stop-start)
 
-def algo_A(n):
+def algo_B(n):
+    """
+    Premier algo permettant de trier et sélectionnner le nombre d'objet à mettre dans le sac sans dépasser le poids
+    en optimisant l'utilité max
+    :param n: poids max à mettre dans le sac
+    :return:
+    """
     #Méthode pas concluante
     #data = pd.read_csv("TabDonneesSac.csv", sep=';', header=0).to_dict()
     #poids = data["Masse"]
     #utilite = data["Utilité"]
     #ratio = []
+    poids_total = 0
 
     for key in dico.keys():
         dico[key].append(dico[key][1]/dico[key][0])
 
-    dico_tri = sorted(dico.items(), key=lambda truc:truc[1][2], reverse=True)
+    dico_tri = sorted(dico.items(), key=lambda objet:objet[1][2], reverse=True)
 
+    rang = 0
+    in_bag = []
+    while(poids_total > n):
+        if(poids_total+dico_tri[rang][1][2] < n):
+            in_bag.append(dico_tri[rang])
+            poids_total += dico_tri[rang][1][2]
+        rang +=1
 
-
-    print(dico_tri)
+    print(poids_total)
+    print(in_bag)
 
 

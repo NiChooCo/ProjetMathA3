@@ -1,5 +1,6 @@
 import numpy as np
 import csv
+from time import time
 import Margot_test as m
 
 dico = {
@@ -53,6 +54,12 @@ if __name__ == '__main__':
     #tps = (2**23) * (2.5e-8) * 2
     #print('Le temps estimé pour tester toutes les combinaisons est :', tps, ' secondes.')
 
+    start = time()
+    m.algo_B(5)
+    stop = time()
 
-    m.algo_A(3)
-    print(dico)
+    print("Le temps de l'ago B est : ", stop- start, " seconde.")
+    # Pour C = 2; temps = 3.09e-5 secondes
+    # Pour C = 3; temps = 2.88e-5 secondes
+    # Pour C = 4; temps = 2.38e-5 secondes
+    # Pour C = 5; temps = 3.52e-5 secondes

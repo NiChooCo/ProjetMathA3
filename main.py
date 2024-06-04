@@ -1,5 +1,8 @@
+import numpy as np
+import csv
 from time import time
 import Margot_test as m
+import Test_Nico as n
 from exercice1 import *
 
 
@@ -29,3 +32,7 @@ if __name__ == '__main__':
     # Pour C = 3; vrai temps = 1.07e-4 secondes ; temps estimé = 2.149e-5
     # Pour C = 4; vrai temps = 1.13e-4 secondes ; temps estimé = 2.149e-5
     # Pour C = 5; vrai temps = 1.20e-4 secondes ; temps estimé = 2.149e-5
+
+    #m.algo_A(3)
+    #print(dico)
+    n.question6(3)

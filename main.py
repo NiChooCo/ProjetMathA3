@@ -1,5 +1,6 @@
 import numpy as np
 import Margot_test as m
+import Test_Nico as n
 
 
 def question1_2():

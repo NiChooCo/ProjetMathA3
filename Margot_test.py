@@ -29,16 +29,6 @@ dico = {
 }
 
 
-
-def question5(n):
-    start = time()
-    # Il faut varier l'opération et le n pour tester les différentes opérations
-    for i in range(n):
-        op = 36 / 39
-    stop = time()
-
-    print("Le temps est d'environ: ",stop-start)
-
 def algo_B(n):
     """
     Deuxieme algo permettant de trier et sélectionnner le nombre d'objet à mettre dans le sac sans dépasser le poids

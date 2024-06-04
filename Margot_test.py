@@ -37,36 +37,42 @@ def question5(n):
         op = 36 / 39
     stop = time()
 
-    print(stop-start)
+    print("Le temps est d'environ: ",stop-start)
 
 def algo_B(n):
     """
-    Premier algo permettant de trier et sélectionnner le nombre d'objet à mettre dans le sac sans dépasser le poids
+    Deuxieme algo permettant de trier et sélectionnner le nombre d'objet à mettre dans le sac sans dépasser le poids
     en optimisant l'utilité max
+    C'est l'algorithme glouton
     :param n: poids max à mettre dans le sac
     :return:
     """
-    #Méthode pas concluante
-    #data = pd.read_csv("TabDonneesSac.csv", sep=';', header=0).to_dict()
-    #poids = data["Masse"]
-    #utilite = data["Utilité"]
-    #ratio = []
+    # Pour chaque nb_op modifié on à toujours +1 car on fait une opéation
+    nb_op = 1
     poids_total = 0
+    nb_op += 2
 
     for key in dico.keys():
         dico[key].append(dico[key][1]/dico[key][0])
+        nb_op += 2
 
     dico_tri = sorted(dico.items(), key=lambda objet:objet[1][2], reverse=True)
+    nb_op +=2
 
     rang = 0
     in_bag = []
-    while(poids_total > n):
-        if(poids_total+dico_tri[rang][1][2] < n):
+    nb_op += 3
+    while(poids_total < n and rang < len(dico)):
+        if(poids_total+dico_tri[rang][1][0] < n):
+            #print("Objet ajouté ==> ", dico_tri[rang])
             in_bag.append(dico_tri[rang])
-            poids_total += dico_tri[rang][1][2]
+            poids_total += dico_tri[rang][1][0]
         rang +=1
+        nb_op += 7
 
-    print(poids_total)
-    print(in_bag)
+    print("Le poid du sac est : ", poids_total)
+    print("Les objets dans le sac sont : ", in_bag)
+    print("Le nombre d'opérations maximale est :", nb_op)
+    print("Le temps maximal estimé pour cet algo est ", nb_op*1e-7)
 
 

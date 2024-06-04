@@ -45,7 +45,7 @@ def question1_2():
 if __name__ == '__main__':
     #question1_2()
 
-    m.question5(4000)
+    #m.question5(4000)
     """Estimations temps:
         Affectation, addition, soustraction => 2,5e-8
         Multiplication, Division => 1e-7
@@ -54,12 +54,14 @@ if __name__ == '__main__':
     #tps = (2**23) * (2.5e-8) * 2
     #print('Le temps estimé pour tester toutes les combinaisons est :', tps, ' secondes.')
 
+
+    # Question 14
     start = time()
     m.algo_B(5)
     stop = time()
 
     print("Le temps de l'ago B est : ", stop- start, " seconde.")
-    # Pour C = 2; temps = 3.09e-5 secondes
-    # Pour C = 3; temps = 2.88e-5 secondes
-    # Pour C = 4; temps = 2.38e-5 secondes
-    # Pour C = 5; temps = 3.52e-5 secondes
+    # Pour C = 2; vrai temps = 1.08e-4 secondes ; temps estimé = 2.149e-5
+    # Pour C = 3; vrai temps = 1.07e-4 secondes ; temps estimé = 2.149e-5
+    # Pour C = 4; vrai temps = 1.13e-4 secondes ; temps estimé = 2.149e-5
+    # Pour C = 5; vrai temps = 1.20e-4 secondes ; temps estimé = 2.149e-5

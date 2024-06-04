@@ -4,6 +4,7 @@ from time import time
 import Margot_test as m
 import Test_Nico as n
 from exercice1 import *
+from exercice2 import *
 
 
 
@@ -24,11 +25,12 @@ if __name__ == '__main__':
 
 
     # Question 14
+    '''
     start = time()
     m.algo_B(5)
     stop = time()
 
-    print("Le temps de l'ago B est : ", stop- start, " seconde.")
+    print("Le temps de l'ago B est : ", stop- start, " seconde.")'''
     # Pour C = 2; vrai temps = 1.08e-4 secondes ; temps estimé = 2.149e-5
     # Pour C = 3; vrai temps = 1.07e-4 secondes ; temps estimé = 2.149e-5
     # Pour C = 4; vrai temps = 1.13e-4 secondes ; temps estimé = 2.149e-5
@@ -36,4 +38,11 @@ if __name__ == '__main__':
 
     #m.algo_A(3)
     #print(dico)
-    n.question6(3)
+    #n.question6(3)
+
+
+
+    # ============== Partie 2 ================
+
+
+    #online1()

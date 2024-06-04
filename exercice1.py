@@ -114,6 +114,7 @@ def recherche_locale(poids_max):
         nb_op += 3
     print(objetmax)
     print("Temps estimé pour cet algo :", nb_op*1e-7, "secondes")
+
 def algo_B(n):
     """
     Deuxieme algo permettant de trier et sélectionnner le nombre d'objet à mettre dans le sac sans dépasser le poids

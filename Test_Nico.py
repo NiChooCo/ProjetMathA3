@@ -1,4 +1,4 @@
-import time
+from time import time
 import math
 import random
 import numpy as np
@@ -59,16 +59,27 @@ def question10(poids_max):
     temps d'exécution total : 83.8860803 secondes
 '''
 
-def algo_B(poids_max):
-    poids = 0
-    nb_objets = 0
-    utilite = 0
-    while poids < poids_max:
-        objets = sorted(dico.items(), key=lambda x: x[1][1]/x[1][0], reverse=True)
-        for objet in objets:
-            if poids + objet[1][0] <= poids_max:
-                poids += objet[1][0]
-                utilite += objet[1][1]
-                nb_objets += 1
-
-#https://fr.wikipedia.org/wiki/Probl%C3%A8me_du_sac_%C3%A0_dos
+def recherche_locale(poids_max):
+    rangmax = 0
+    objetmax = []
+    poidsmax = 0
+    nb_op = 3
+    for key in dico.keys():
+        dico[key].append(dico[key][1] / dico[key][0])
+        nb_op += 1
+    dico2 = dico.copy()
+    nb_op += 1
+    while poidsmax < poids_max:
+        ratiomax = 0
+        for i in dico2.keys():
+            if dico2[i][2] > ratiomax:
+                ratiomax = dico2[i][2]
+                rangmax = i
+                nb_op += 2
+            nb_op += 1
+        objetmax.append(dico2[rangmax])
+        poidsmax += dico2[rangmax][0]
+        dico2.pop(rangmax)
+        nb_op += 3
+    print(objetmax)
+    print("Temps estimé pour cet algo :", nb_op*1e-7, "secondes")

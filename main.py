@@ -49,3 +49,4 @@ if __name__ == '__main__':
     # Temps d'exécution : 263.74284648895264
     #n.question10(5)
     # Temps d'exécution : 262.98826360702515
+    recherche_locale(2)

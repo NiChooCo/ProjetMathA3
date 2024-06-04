@@ -12,12 +12,21 @@ def question5(n):
     print(stop-start)
 
 def algo_A(n):
-    data = pd.read_csv("TabDonneesSac.csv", sep=';', header=0)
+    data = pd.read_csv("TabDonneesSac.csv", sep=';', header=0).to_dict()
 
-    poids = data.Masse
-    utilite = data.Utilité
+    print(data)
+
+    '''
+    dico{(poids[i],utilité[i]) : ratio[i]}
+    '''
+
+    poids = data["Masse"]
+    utilite = data["Utilité"]
+
+    print(poids)
     ratio = []
     for i in range(len(poids)):
         ratio.append(float(utilite[i])/float(poids[i]))
 
-    print(ratio)
+    data["ratio"] = ratio
+    print(data["ratio"])

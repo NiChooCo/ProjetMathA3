@@ -1,6 +1,6 @@
 import numpy as np
 import Margot_test as m
-import Test_Nico as n
+#import Test_Nico as n
 
 
 def question1_2():
@@ -17,5 +17,15 @@ def question1_2():
 
 if __name__ == '__main__':
     #question1_2()
-    m.algo_sac(3)
+    m.question5(4000)
+    """Estimations temps:
+        Affectation, addition, soustraction => 2,5e-8
+        Multiplication, Division => 1e-7
+    """
+    # Il faut tester
+    tps = (2**23) * (2.5e-8) * 2
+    print('Le temps estimé pour tester toutes les combinaisons est :', tps, ' secondes.')
+
+
+    m.algo_A(3)
 

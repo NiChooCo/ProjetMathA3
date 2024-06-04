@@ -69,4 +69,4 @@ if __name__ == '__main__':
 
     #m.algo_A(3)
     #print(dico)
-    n.question6(2)
+    n.question6(3)

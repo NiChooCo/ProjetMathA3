@@ -1,4 +1,7 @@
 import time
+import math
+import random
+import numpy as np
 
 
 dico = {
@@ -55,3 +58,17 @@ def question6(poids_max):
     temps d'exécution d'une opération : 1e-7
     temps d'exécution total : 83.8860803 secondes
 '''
+
+def algo_B(poids_max):
+    poids = 0
+    nb_objets = 0
+    utilite = 0
+    while poids < poids_max:
+        objets = sorted(dico.items(), key=lambda x: x[1][1]/x[1][0], reverse=True)
+        for objet in objets:
+            if poids + objet[1][0] <= poids_max:
+                poids += objet[1][0]
+                utilite += objet[1][1]
+                nb_objets += 1
+
+#https://fr.wikipedia.org/wiki/Probl%C3%A8me_du_sac_%C3%A0_dos

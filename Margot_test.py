@@ -38,9 +38,8 @@ def algo_B(n):
     :return:
     """
     # Pour chaque nb_op modifié on à toujours +1 car on fait une opéation
-    nb_op = 1
     poids_total = 0
-    nb_op += 2
+    nb_op = 2
 
     for key in dico.keys():
         dico[key].append(dico[key][1]/dico[key][0])

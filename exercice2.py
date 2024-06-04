@@ -1,18 +1,12 @@
 import pandas as pd
 
-data = pd.read_csv("Donnees_marchandises.csv", header=0, delimiter=";")
-
-def create_dico(data):
+def create_dico(datapath):
     """
     Créer un dictionnaire avec les données du csv
-    :param data: csv
+    :param data: chemin vers le fichier csv
     :return: a dict
-    Numéro
-    Désignation
-    Longueur
-    Largeur
-    Hauteur
     """
+    data = pd.read_csv(datapath, header=0, delimiter=";")
     new = {}
     for i in range(len(data)):
         if(data["Désignation"][i] in new.keys()):
@@ -24,14 +18,14 @@ def create_dico(data):
     #print(new)
     return(new)
 
+# Pour cette partie utiliser First Fit decreasing et Best Fit decreasing
 
-
-def online1():
+def online1(dico):
     """
     Rangement en ne prenant en compte que la longeur des marchandises et on ne peut pas les trier au départ.
     :return:
     """
-    print(data)
+
 
 def online2():
     """

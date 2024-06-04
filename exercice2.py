@@ -25,7 +25,23 @@ def online1(dico):
     Rangement en ne prenant en compte que la longeur des marchandises et on ne peut pas les trier au départ.
     :return:
     """
+    train = []
+    longueur_wagon = 11.583
+    longueur = 0
+    wagon = []
 
+    for item in dico.keys():
+        if(longueur+float(dico[item][0]) < longueur_wagon):
+            wagon.append(item)
+            longueur += float(dico[item][0])
+        else:
+            train.append(wagon)
+            wagon.clear()
+            longueur = 0
+            wagon.append(item)
+            longueur += float(dico[item][0])
+
+    print("On a", len(train), "wagons pour mettre tous les objets dans le train.")
 
 def online2():
     """

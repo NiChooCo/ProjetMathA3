@@ -7,6 +7,9 @@ from exercice1 import *
 from exercice2 import *
 
 
+# Question 3 :
+# Utilité maximale pour un poids inférieur ou égal à 0.6 : 7.6 avec 6 objets pour un poids total de 0.6
+
 
 if __name__ == '__main__':
     #question1_2()
@@ -38,11 +41,11 @@ if __name__ == '__main__':
 
     #m.algo_A(3)
     #print(dico)
-    #n.question6(3)
-
-
-
-    # ============== Partie 2 ================
-
-
-    #online1()
+    #n.question10(2)
+    # Temps d'exécution : 263.7648513317108
+    #n.question10(3)
+    # Temps d'exécution : 263.69722151756287
+    #n.question10(4)
+    # Temps d'exécution : 263.74284648895264
+    #n.question10(5)
+    # Temps d'exécution : 262.98826360702515

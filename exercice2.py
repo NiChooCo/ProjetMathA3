@@ -25,6 +25,7 @@ def create_dico(data):
     return(new)
 
 
+
 def online1():
     """
     Rangement en ne prenant en compte que la longeur des marchandises et on ne peut pas les trier au départ.

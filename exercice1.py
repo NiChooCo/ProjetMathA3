@@ -2,6 +2,7 @@ import numpy as np
 import csv
 from time import time
 
+
 dico = {
     "Pompe": [0.2, 1.5],
     "Démonte-pneus": [0.1, 1.5],

@@ -6,6 +6,7 @@ import Test_Nico as n
 from exercice1 import *
 
 
+
 if __name__ == '__main__':
     #question1_2()
 

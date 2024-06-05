@@ -94,25 +94,26 @@ def online2(dico):
         else:
             for i in range(len(train)):
 
-                if tab_longueur[i] >= float(dico2[item][0]) and tab_longueur[i]-float(dico2[item][0])>0:
+                if tab_longueur[i] > float(dico2[item][0]) and tab_longueur[i]-float(dico2[item][0])>0:
                     tab_longueur[i] -= float(dico2[item][0])
-                    train[i].append(item)
+                    train[i].append(dico[item])
                     #dico2.pop(item)
                     break
 
-                elif tab_largeur[i] >= float(dico2[item][1]) and tab_largeur[i] - float(dico[item][1])>0:
+                elif tab_largeur[i] > float(dico2[item][1]) and tab_largeur[i] - float(dico[item][1])>0:
                     tab_largeur[i] -= float(dico2[item][1])
-                    train[i].append(item)
+                    train[i].append(dico[item])
                     tab_longueur[i] = longueur_wagon - float(dico2[item][0])
                     #dico2.pop(item)
                     break
 
-                print("Tain à l'étape", i , "==<>",train[i])
+                #print("Train à l'étape", i , "==<>",train[i])
             else:
                 tab_longueur.append(longueur_wagon - float(dico2[item][0]))
                 tab_largeur.append(largeur_wagon - float(dico2[item][1]))
-                train.append([item])
+                train.append(dico[item])
 
+    print(train)
     print("On a", len(train), "wagons pour mettre tous les objets dans le train.")
 
 def online3(dico):

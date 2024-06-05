@@ -116,6 +116,47 @@ def online2(dico):
     print(train)
     print("On a", len(train), "wagons pour mettre tous les objets dans le train.")
 
+def online2_emir(dico):
+    """
+    Rangement en ne prenant en compte que la longueur et la largeur des marchandises et on ne peut pas les trier au départ.
+    :param dico: Dictionnaire avec les dimensions des marchandises.
+    :return: Liste de wagons remplis.
+    """
+
+    longueur_wagon = round(11.583/0.1)
+    largeur_wagon = round(2.294/0.1)
+
+    def creer_wagon():
+        return [[0] * largeur_wagon for w in range(longueur_wagon)]
+
+    train = []
+    wagon = creer_wagon()
+    train.append(wagon)
+
+    def placer_objet(wagon, longueur_objet, largeur_objet):
+        for i in range(longueur_wagon - longueur_objet + 1):
+            for j in range(largeur_wagon - largeur_objet + 1):
+                if all(wagon[i + x][j + y] == 0 for x in range(longueur_objet) for y in range(largeur_objet)):
+                    for x in range(longueur_objet):
+                        for y in range(largeur_objet):
+                            wagon[i + x][j + y] = 1
+                    return True
+        return False
+
+    for item in dico.keys():
+        longueur_objet = round(float(dico[item][0])/0.1)
+        largeur_objet = round(float(dico[item][1])/0.1)
+        for wagon in train:
+            if placer_objet(wagon, longueur_objet, largeur_objet):
+                break
+        else:
+            new_wagon = creer_wagon()
+            train.append(new_wagon)
+            if not placer_objet(new_wagon, longueur_objet, largeur_objet):
+                break
+
+    return train
+
 def online3(dico):
     """
     Rangement en ne prenant en compte toutes les dimensions (longueur, largeur, hauteur) des marchandises et on ne peut

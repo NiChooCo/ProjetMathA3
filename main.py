@@ -51,8 +51,28 @@ if __name__ == '__main__':
     # Temps d'exécution : 262.98826360702515
     #recherche_locale(2)
 
+    # Affichage des sous-ensembles
+    #start_time = time.time()
+    #for subset, weight in tree(dico_exact):
+    #    if weight == 0.6:
+    #        print("Objets:", subset, " Poids:", weight)
+    #end_time = time.time()
+    #print(f"Temps d'exécution : {end_time - start_time:.4f} secondes")
+
     # ================== Partie 2 =======================
 
     dico = create_dico("Donnees_marchandises.csv")
+    # Tests pour 1 dimension
     #offline1(dico)
-    online1(dico)
+    #online1(dico)
+
+    # Test pour 2 dimensions
+    train = online2_emir(dico)
+    for i, wagon in enumerate(train):
+        print(f"\nWagon {i + 1}:")
+        for j in wagon:
+            print(j)
+
+    #offline2(dico)
+
+    # Tests pour 3 dimensions

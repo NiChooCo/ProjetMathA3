@@ -3,7 +3,7 @@ import csv
 from time import time
 
 
-dico = {
+dico_objet = {
     "Pompe": [0.2, 1.5],
     "Démonte-pneus": [0.1, 1.5],
     "Gourde": [1, 2],
@@ -28,6 +28,33 @@ dico = {
     "Fruits": [0.6, 1.3],
     "Rustines": [0.05, 1.5]
 }
+
+dico_exact = {
+    "Pompe": 0.2,
+    "Démonte-pneus": 0.1,
+    "Gourde": 1,
+    "Chambre à air": 0.2,
+    "Clé de 15": 0.3,
+    "Multi-tool": 0.2,
+    "Pince multiprise": 0.4,
+    "Couteau suisse": 0.2,
+    "Compresses": 0.1,
+    "Désinfectant": 0.2,
+    "Veste de pluie": 0.4,
+    "Pantalon de pluie": 0.4,
+    "Crème solaire": 0.4,
+    "Carte IGN": 0.1,
+    "Batterie Portable": 0.5,
+    "Téléphone mobile": 0.4,
+    "Lampes": 0.3,
+    "Arrache Manivelle": 0.4,
+    "Bouchon valve chromé bleu": 0.01,
+    "Maillon rapide": 0.05,
+    "Barre de céréales": 0.4,
+    "Fruits": 0.6,
+    "Rustines": 0.05
+}
+
 
 #=============== FONCTIONS ==================
 def question1_2():
@@ -150,3 +177,27 @@ def algo_B(n):
     print("Les objets dans le sac sont : ", in_bag)
     print("Le nombre d'opérations maximale est :", nb_op)
     print("Le temps maximal estimé pour cet algo est ", nb_op*1e-7)
+
+
+# Algorithme exact
+
+def tree(dico, max_weight=0.6, current_weight=0, current_subset=set()):
+    # Initialisation de la méthode yield
+    if len(dico) == 0:
+        yield current_subset, current_weight
+        return
+
+    # Prendre le premier élément et poids du dictionnaire
+    first_element, first_weight = next(iter(dico.items()))
+
+    # Prendre le reste du dictonnaire
+    rest_dico = {k: dico[k] for k in dico if k != first_element}
+
+    # Appel récursif pour le reste du dictionnaire
+    for subset, weight in tree(rest_dico, max_weight, current_weight, current_subset):
+        # Retourne le sous-ensemble et le poids sans ajouter le premier élément
+        if weight <= max_weight:
+            yield subset, weight
+        # Retourne le sous-ensemble et le poids en ajoutant premier élément
+        if weight + first_weight <= max_weight:
+            yield subset.union({first_element}), weight + first_weight

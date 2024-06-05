@@ -1,4 +1,7 @@
 import pandas as pd
+import math
+from matplotlib import pyplot as plt
+import random
 
 def create_dico(datapath):
     """
@@ -164,7 +167,47 @@ def online3(dico):
     :param dico:
     :return:
     """
-    pass
+    merch = dico.copy()
+    wagon = []
+    dimensions_wagon = [11.583, 2.294]
+    shelf = []
+    train = []
+    shelf_size = [11.583, 0]
+    for item in merch.keys():
+        if not train:
+            if not wagon:
+                if not shelf:
+                    shelf.append(item)
+                    if shelf_size[1] < merch[item][1]:
+                        shelf_size[1] = merch[item][1]
+                    print("aaaaa")
+                else:
+                    if shelf_size[0] >= merch[item][0]:
+                        shelf.append(item)
+                        shelf_size[0] -= merch[item][0]
+                        if shelf_size[1] < merch[item][1]:
+                            shelf_size[1] = merch[item][1]
+                        print("bbbbb")
+                    else:
+                        wagon.append(shelf)
+                        dimensions_wagon[1] -= shelf_size[1]
+                        shelf = [item]
+                        shelf_size[0] = dimensions_wagon[0] - merch[item][0]
+                        shelf_size[1] = 0
+                        print("ccccc")
+            else:
+                if dimensions_wagon[1] >= shelf_size[1]:
+                    wagon.append(shelf)
+                    dimensions_wagon[1] -= shelf_size[1]
+                    print("eeeee")
+                else:
+                    train.append(wagon)
+                    wagon = [shelf]
+                    dimensions_wagon[1] = 2.294 - shelf_size[1]
+                    print("fffff")
+    print(train)
+    print(len(train))
+
 
 def offline1(dico):
     """

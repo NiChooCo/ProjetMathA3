@@ -55,4 +55,5 @@ if __name__ == '__main__':
 
     dico = create_dico("Donnees_marchandises.csv")
     #offline1(dico)
-    online1(dico)
+    #online1(dico)
+    online2(dico)

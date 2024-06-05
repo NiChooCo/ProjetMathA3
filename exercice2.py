@@ -22,7 +22,7 @@ def create_dico(datapath):
 
 def online1(dico):
     """
-    Rangement en ne prenant en compte que la longeur des marchandises et on ne peut pas les trier au départ.
+    Rangement en ne prenant en compte que la longueur des marchandises et on ne peut pas les trier au départ.
     :param dico:
     :return:
     """
@@ -69,7 +69,7 @@ def online1(dico):
 
 def online2(dico):
     """
-    Rangement en ne prenant en compte que la longeur et la largeur des marchandises et on ne peut pas les trier au départ.
+    Rangement en ne prenant en compte que la longueur et la largeur des marchandises et on ne peut pas les trier au départ.
     :param dico:
     :return:
     """
@@ -77,7 +77,7 @@ def online2(dico):
 
 def online3(dico):
     """
-    Rangement en ne prenant en compte toutes les dimmensions (longeur, largeur, hauteur) des marchandises et on ne peut
+    Rangement en ne prenant en compte toutes les dimensions (longueur, largeur, hauteur) des marchandises et on ne peut
     pas les trier au départ.
     :param dico:
     :return:
@@ -86,7 +86,7 @@ def online3(dico):
 
 def offline1(dico):
     """
-    Rangement en ne prenant en compte que la longeur des marchandises et on peut les trier au départ
+    Rangement en ne prenant en compte que la longueur des marchandises et on peut les trier au départ
     :param dico:
     :return:
     """
@@ -99,44 +99,61 @@ def offline1(dico):
 
     dico_tri = sorted(dico.items(), key=lambda objet: objet[1][0], reverse=True)
 
+    nb_op = 7
+
     while len(dico_tri) != 0:
-        num+=1
+        num += 1
         wagon.append(dico_tri[0])
         longueur += dico_tri[0][1][0]
         dico_tri.pop(0)
+        nb_op += 4
 
-        # TO DO : Objet qui s'enlève pas bien
-        for i in range(len(dico_tri)-1):
+        for i in range(len(dico_tri)):
             if(dico_tri[i][1][0] + longueur <= longueur_wagon):
                 wagon.append(dico_tri[i])
                 longueur += dico_tri[i][1][0]
                 objet_enleve.append(i)
+                nb_op += 4
 
         rang = 0
         for objet in objet_enleve:
             print("rang == ", objet, " longeur dico ==", len(dico_tri))
             dico_tri.pop(objet-rang)
             rang += 1
+            nb_op += 2
+
         objet_enleve.clear()
 
-        print("Le wagon numéro:",num, "est ", wagon)
+        print("Le wagon numéro:",num, "est ", wagon, "et sa longueur est :", longueur)
         train.append(wagon)
         wagon.clear()
         longueur = 0
+        nb_op += 5
 
     print("On a", len(train), "wagons pour mettre tous les objets dans le train.")
 
+    # Calcul estimation du temps de calcul
+    print("Le nombre d'opérations maximale est :", nb_op) # => 739 opérations
+    print("Le temps maximal estimé pour cet algo est ", nb_op*1e-6) # => 7.39e-4 s
+
 def offline2(dico):
     """
-    Rangement en ne prenant en compte que la longeur des marchandises et on peut les trier au départ
+    Rangement en ne prenant en compte que la longueur des marchandises et on peut les trier au départ
     :param dico:
     :return:
     """
-    pass
+    longueur_wagon = 11.583
+    largeur_wagon = 2.294
+
+    train = []
+    longueur = 0
+    wagon = []
+    objet_enleve = []
+    num = 0
 
 def offline3(dico):
     """
-    Rangement en ne prenant en compte toutes les dimmensions (longeur, largeur, hauteur) des marchandises et on peut les
+    Rangement en ne prenant en compte toutes les dimensions (longueur, largeur, hauteur) des marchandises et on peut les
     trier au départ
     :return:
     """

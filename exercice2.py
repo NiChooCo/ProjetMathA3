@@ -32,11 +32,12 @@ def online1(dico):
     wagon = []
 
     for item in dico.keys():
-        if(longueur+float(dico[item][0]) < longueur_wagon):
+        if(longueur+float(dico[item][0]) <= longueur_wagon):
             wagon.append(item)
             longueur += float(dico[item][0])
         else:
             train.append(wagon)
+            print("Le wagon est ==>", wagon)
             wagon.clear()
             longueur = 0
             wagon.append(item)
@@ -71,23 +72,35 @@ def offline1(dico):
     longueur_wagon = 11.583
     longueur = 0
     wagon = []
+    objet_enleve = []
+    num=0
+
     dico_tri = sorted(dico.items(), key=lambda objet: objet[1][0], reverse=True)
+
     while len(dico_tri) != 0:
+        num+=1
         wagon.append(dico_tri[0])
-        longueur_wagon -= dico_tri[0][1][0]
+        longueur += dico_tri[0][1][0]
         dico_tri.pop(0)
 
-        # TO DO : OUT OF RANGE
-        for i in range(len(dico_tri)):
-            if(dico_tri[i][1][0] + longueur_wagon <= 11.583):
+        # TO DO : Objet qui s'enlève pas bien
+        for i in range(len(dico_tri)-1):
+            if(dico_tri[i][1][0] + longueur <= longueur_wagon):
                 wagon.append(dico_tri[i])
-                longueur_wagon -= dico_tri[i][1][0]
-                dico_tri.pop(i)
+                longueur += dico_tri[i][1][0]
+                objet_enleve.append(i)
 
+        rang = 0
+        for objet in objet_enleve:
+            print("rang == ", objet, " longeur dico ==", len(dico_tri))
+            dico_tri.pop(objet-rang)
+            rang += 1
+        objet_enleve.clear()
 
+        print("Le wagon numéro:",num, "est ", wagon)
         train.append(wagon)
         wagon.clear()
-        longueur_wagon = 11.583
+        longueur = 0
 
     print("On a", len(train), "wagons pour mettre tous les objets dans le train.")
 

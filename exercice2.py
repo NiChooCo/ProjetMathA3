@@ -160,6 +160,7 @@ def online2_emir(dico):
 
     return train
 
+
 def online3(dico):
     """
     Rangement en ne prenant en compte toutes les dimensions (longueur, largeur, hauteur) des marchandises et on ne peut

@@ -59,6 +59,7 @@ if __name__ == '__main__':
     #end_time = time.time()
     #print(f"Temps d'exécution : {end_time - start_time:.4f} secondes")
 
+
     # ================== Partie 2 =======================
 
     dico = create_dico("Donnees_marchandises.csv")

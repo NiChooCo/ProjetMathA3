@@ -28,22 +28,44 @@ def online1(dico):
     """
     train = []
     longueur_wagon = 11.583
-    longueur = 0
-    wagon = []
-
+    tab_longueur = []
     for item in dico.keys():
-        if(longueur+float(dico[item][0]) <= longueur_wagon):
-            wagon.append(item)
-            longueur += float(dico[item][0])
+        if not train:
+            tab_longueur.append(longueur_wagon - float(dico[item][0]))
+            train.append([item])
         else:
+            for i in range(len(train)):
+                if tab_longueur[i] >= float(dico[item][0]):
+                    tab_longueur[i] -= float(dico[item][0])
+                    train[i].append(item)
+                    break
+            else:
+                tab_longueur.append(longueur_wagon - float(dico[item][0]))
+                train.append([item])
+
+    print(train)
+    print(tab_longueur)
+    print("On a", len(train), "wagons pour mettre tous les objets dans le train.")
+
+
+    '''for item in list(dico.keys()):
+        for l in range(len(tab_longueur)-1):
+            if tab_longueur[l] >= float(dico[item][0]) and tab_longueur[l] - float(dico[item][0]) >= 0:
+                tab_longueur[l] -= float(dico[item][0])
+                train[l].append(item)
+                print(train)
+        else:
+            wagon.append(item)
             train.append(wagon)
             print("Le wagon est ==>", wagon)
-            wagon.clear()
+            # wagon.clear()
+            tab_longueur.append(longueur_wagon - float(dico[item][0]))
+            print(tab_longueur)
             longueur = 0
-            wagon.append(item)
             longueur += float(dico[item][0])
 
-    print("On a", len(train), "wagons pour mettre tous les objets dans le train.")
+    print(train)
+    print("On a", len(train), "wagons pour mettre tous les objets dans le train.")'''
 
 def online2(dico):
     """

@@ -73,7 +73,47 @@ def online2(dico):
     :param dico:
     :return:
     """
-    pass
+    train = []
+    longueur_wagon = 11.583
+    largeur_wagon = 2.294
+
+    dico2 = dico.copy()
+
+    largeur_max = 0
+    largeur_ecart = 0
+    longueur_r = 0
+
+    tab_longueur = []
+    tab_largeur = []
+
+    for item in dico2.keys():
+        if not train:
+            tab_longueur.append(longueur_wagon - float(dico2[item][0]))
+            tab_largeur.append(largeur_wagon - float(dico2[item][1]))
+            train.append([item])
+        else:
+            for i in range(len(train)):
+
+                if tab_longueur[i] >= float(dico2[item][0]) and tab_longueur[i]-float(dico2[item][0])>0:
+                    tab_longueur[i] -= float(dico2[item][0])
+                    train[i].append(item)
+                    #dico2.pop(item)
+                    break
+
+                elif tab_largeur[i] >= float(dico2[item][1]) and tab_largeur[i] - float(dico[item][1])>0:
+                    tab_largeur[i] -= float(dico2[item][1])
+                    train[i].append(item)
+                    tab_longueur[i] = longueur_wagon - float(dico2[item][0])
+                    #dico2.pop(item)
+                    break
+
+                print("Tain à l'étape", i , "==<>",train[i])
+            else:
+                tab_longueur.append(longueur_wagon - float(dico2[item][0]))
+                tab_largeur.append(largeur_wagon - float(dico2[item][1]))
+                train.append([item])
+
+    print("On a", len(train), "wagons pour mettre tous les objets dans le train.")
 
 def online3(dico):
     """
@@ -117,14 +157,14 @@ def offline1(dico):
 
         rang = 0
         for objet in objet_enleve:
-            print("rang == ", objet, " longeur dico ==", len(dico_tri))
+            #print("rang == ", objet, " longeur dico ==", len(dico_tri))
             dico_tri.pop(objet-rang)
             rang += 1
             nb_op += 2
 
         objet_enleve.clear()
 
-        print("Le wagon numéro:",num, "est ", wagon, "et sa longueur est :", longueur)
+        #print("Le wagon numéro:",num, "est ", wagon, "et sa longueur est :", longueur)
         train.append(wagon)
         wagon.clear()
         longueur = 0
@@ -151,10 +191,23 @@ def offline2(dico):
     objet_enleve = []
     num = 0
 
+    dico_tri = sorted(dico.items(), key=lambda objet: objet[1][0]*objet[1][1], reverse=True)
+
+
 def offline3(dico):
     """
     Rangement en ne prenant en compte toutes les dimensions (longueur, largeur, hauteur) des marchandises et on peut les
     trier au départ
     :return:
     """
-    pass
+    longueur_wagon = 11.583
+    largeur_wagon = 2.294
+    hauteur_wagon = 2.569
+
+    train = []
+    longueur = 0
+    wagon = []
+    objet_enleve = []
+    num = 0
+
+    dico_tri = sorted(dico.items(), key=lambda objet: objet[1][0] * objet[1][1]*objet[1][2], reverse=True)

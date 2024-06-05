@@ -65,3 +65,56 @@ def algo_B(n):
     print("Le temps maximal estimé pour cet algo est ", nb_op*1e-7)
 
 
+# ====================== TEST 2D ======================
+
+
+def online2(dico):
+    """
+    Rangement en ne prenant en compte que la longueur et la largeur des marchandises et on ne peut pas les trier au départ.
+    :param dico:
+    :return:
+    """
+    train = []
+    longueur_wagon = 11.583
+    largeur_wagon = 2.294
+
+    largeur_max = 0
+    largeur_ecart = 0
+
+    for item in dico.keys():
+
+        if not train:
+            train.append([item, dico[item]])
+            print(train)
+
+        else:
+            for w in train:
+                longueurW = 0
+                largeur_max = 0
+
+                if len(w) == 2:
+                    for l in w:
+                        longueurW += float(l[1][0])
+                    for i in range(len(w)):
+                        if (longueurW + dico[item][0] <= longueur_wagon):
+                            w.append([item, dico[item]])
+                            if (dico[item][1] > largeur_max):
+                                largeur_max = float(dico[item][1])
+
+
+                        elif (largeur_wagon - largeur_max <= dico[item][1]):
+                            w.append([item, dico[item]])
+                        print("Le wagon modif", w)
+
+                else:
+                    print(len(w))
+                    longueurW = w[1][0]
+                    if (longueurW + dico[item][0] <= longueur_wagon):
+                        w.append([item, dico[item]])
+                        if (dico[item][1] > largeur_max):
+                            largeur_max = dico[item][1]
+
+                    elif (largeur_wagon - largeur_max <= dico[item][1]):
+                        w.append([item, dico[item]])
+
+    print("On a", len(train), "wagons pour mettre tous les objets dans le train.")

@@ -63,9 +63,13 @@ dico_exact = {
 
 # =============== FONCTIONS ==================
 
-# Question 1 et 2 (réalisé par Nicolas)
 
 def question1_2(n_objets):
+    """
+    Fonction permettant de répondre aux questions 1 et 2 réalisée par Nicolas
+    :param n_objets:
+    :return:
+    """
     print("Question 1 :")
     for i in n_objets:
         print("Nombre de possibilités pour", i, "objets:", 2**i)
@@ -81,10 +85,15 @@ def question1_2(n_objets):
 
 # --------------------------------------------
 
-
-# Question 5 (réalisé par Nicolas)
+# Question 5
 
 def question5(n):
+    """
+    Réalisée par Nicolas et Margot
+    Fonction permettant de calculer le temps pour un nombre n d'opérations
+    :param n: le nombre d'opérations à réaliser
+    :return:
+    """
     start = time()
     # Il faut varier l'opération et le n pour tester les différentes opérations
     for i in range(n):

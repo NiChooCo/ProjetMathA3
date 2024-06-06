@@ -27,7 +27,8 @@ def create_dico(datapath):
     return (new)
 
 
-# Pour cette partie utiliser First Fit decreasing et Best Fit decreasing
+# ================ Algorithmes offlines =====================
+# First Fit decreasing
 
 def online1(dico):
     """
@@ -258,6 +259,9 @@ def online3(dico):
     print("On a", len(train), "wagons pour mettre tous les objets dans le train.")
     return train
 
+
+# ================ Algorithmes offlines =====================
+# Best Fit decreasing
 
 def offline1(dico):
     """

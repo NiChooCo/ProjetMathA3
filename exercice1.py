@@ -196,7 +196,7 @@ def tree(dico, max_weight=0.6, current_weight=0, current_subset=set()):
 # --------------------------------------------
 
 
-# QUestion 11 et 12 (Réalisé par Margot et Nicolas)
+# Question 11 et 12 (Réalisé par Margot et Nicolas)
 
 def recherche_locale(poids_max, dico):
     """

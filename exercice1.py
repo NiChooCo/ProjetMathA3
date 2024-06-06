@@ -79,40 +79,6 @@ def question5(n):
 
     print("Le temps est d'environ: ",stop-start)
 
-def bruteforce(poids_max, dico):
-    """
-    Algorithme de recherche exacte trèèèèèèèèèèèèèèèès lent
-    :param poids_max:
-    :return:
-    """
-    poidsmax = 0
-    utilitemax = 0
-    objetmax = []
-    start = time()
-    for i in range(2**len(dico)):
-        poids = 0
-        utilite = 0
-        objet = []
-        for j in range(len(dico)):
-            #if i & 1 << j:
-            poids += dico[list(dico.keys())[j]][0]
-            utilite += dico[list(dico.keys())[j]][1]
-            objet.append(list(dico.keys())[j])
-        if poids <= poids_max and utilite > utilitemax:
-            poidsmax = poids
-            utilitemax = utilite
-            objetmax = objet
-    end = time()
-    print("Utilité maximale pour un poids inférieur ou égal à ", poids_max, " :", utilitemax, "avec", len(objetmax), "objets pour un poids total de", poidsmax)
-    print("Objets choisis :", objetmax)
-    print("Temps d'exécution :", end-start)
-
-'''
-    Nb d'opérations pour l'algo bruteforce : 3+2**23*(8+23*4)  = 838860803
-    temps d'exécution d'une opération : 1e-7
-    temps d'exécution total : 83.8860803 secondes
-'''
-
 
 def recherche_locale(poids_max, dico):
     """
@@ -181,13 +147,50 @@ def algo_B(n, dico):
     print("Le temps maximal estimé pour cet algo est ", nb_op*1e-7)
 
 
-# Algorithme exact
+# ================== Algorithmes exacts ==========================
+def bruteforce(poids_max, dico):
+    """
+    Algorithme de recherche exact très lent
+    Créé par Nicolas
+    :param poids_max: Poids maximal que l'on peut mettre dans le sac
+    :param dico: dictionnaire avec tous les objets que l'on peut mettre dans le sac
+    :return:
+    """
+    poidsmax = 0
+    utilitemax = 0
+    objetmax = []
+    start = time()
+    for i in range(2**len(dico)):
+        poids = 0
+        utilite = 0
+        objet = []
+        for j in range(len(dico)):
+            #if i & 1 << j:
+            poids += dico[list(dico.keys())[j]][0]
+            utilite += dico[list(dico.keys())[j]][1]
+            objet.append(list(dico.keys())[j])
+        if poids <= poids_max and utilite > utilitemax:
+            poidsmax = poids
+            utilitemax = utilite
+            objetmax = objet
+    end = time()
+
+    print("Utilité maximale pour un poids inférieur ou égal à ", poids_max, " :", utilitemax, "avec", len(objetmax), "objets pour un poids total de", poidsmax)
+    print("Objets choisis :", objetmax)
+    print("Temps d'exécution :", end-start)
+
+'''
+    Nb d'opérations pour l'algo bruteforce : 3+2**23*(8+23*4)  = 838860803
+    temps d'exécution d'une opération : 1e-7
+    temps d'exécution total : 83.8860803 secondes
+'''
+
 
 def tree(dico, max_weight=0.6, current_weight=0, current_subset=set()):
     """
     Algorithme exact créé par Emir
     Méthode récursive qui teste toutes les possiblités sous format d'arbre binaire
-    :param dico: dictionaire avec tous les objets que l'on peut mettre dans le sac
+    :param dico: dictionnaire avec tous les objets que l'on peut mettre dans le sac
     :param max_weight: poids maximal que peut porter le sac
     :param current_weight: poids actuel du sac
     :param current_subset: liste des objets présents dans le sac

@@ -68,12 +68,18 @@ if __name__ == '__main__':
     #online1(dico)
 
     # Test pour 2 dimensions
-    train = online2_emir(dico)
-    for i, wagon in enumerate(train):
-        print(f"\nWagon {i + 1}:")
-        for j in wagon:
-            print(j)
+    #train = online2_emir(dico)
+    #for i, wagon in enumerate(train):
+    #    print(f"\nWagon {i + 1}:")
+    #    for j in wagon:
+    #        print(j)
 
-    #offline2(dico)
+    #train2 = online2(dico)
+    #train2 = offline2(dico)
 
     # Tests pour 3 dimensions
+    #train3 = online3(dico)
+    train3 = offline3(dico)
+
+    for i, wagon in enumerate(train3):
+        print(f"Wagon {i + 1} contient : {wagon['items']}")

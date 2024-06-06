@@ -6,13 +6,17 @@ import random
 
 def create_dico(datapath):
     """
+    Fonction réalisée par Margot
     Créer un dictionnaire avec les données du csv
     :param datapath: chemin vers le fichier csv
-    :return: a dict
+    :return: un dictionnaire
     """
     data = pd.read_csv(datapath, header=0, delimiter=";")
     new = {}
+
     for i in range(len(data)):
+        # Vérification que le nom n'est pas dans les clés du nouveau dictionnaire pour éviter de modifier les données
+        # déjà existantes
         if (data["Désignation"][i] in new.keys()):
             new_name = data["Désignation"][i] + str(i)
             new[new_name] = [data["Longueur"][i], data["Largeur"][i], data["Hauteur"][i]]
@@ -27,14 +31,18 @@ def create_dico(datapath):
 
 def online1(dico):
     """
+    Fonction réalisée par Nicolas
     Rangement en ne prenant en compte que la longueur des marchandises et on ne peut pas les trier au départ.
-    :param dico:
-    :return:
+    :param dico: Un dictionnaire comportant tous les objets à mettre dans le train
+    :return: Une liste de liste qui correspond au train et aux wagons remplis
     """
+    # Données de base
     train = []
     longueur_wagon = 11.583
     tab_longueur = []
+
     for item in dico.keys():
+        # Vérification que le train comporte un wagon
         if not train:
             tab_longueur.append(longueur_wagon - float(dico[item][0]))
             train.append([item])
@@ -48,35 +56,20 @@ def online1(dico):
                 tab_longueur.append(longueur_wagon - float(dico[item][0]))
                 train.append([item])
 
-    print(train)
-    print(tab_longueur)
+    #print(train)
+    #print(tab_longueur)
     print("On a", len(train), "wagons pour mettre tous les objets dans le train.")
 
-    '''for item in list(dico.keys()):
-        for l in range(len(tab_longueur)-1):
-            if tab_longueur[l] >= float(dico[item][0]) and tab_longueur[l] - float(dico[item][0]) >= 0:
-                tab_longueur[l] -= float(dico[item][0])
-                train[l].append(item)
-                print(train)
-        else:
-            wagon.append(item)
-            train.append(wagon)
-            print("Le wagon est ==>", wagon)
-            # wagon.clear()
-            tab_longueur.append(longueur_wagon - float(dico[item][0]))
-            print(tab_longueur)
-            longueur = 0
-            longueur += float(dico[item][0])
-
-    print(train)
-    print("On a", len(train), "wagons pour mettre tous les objets dans le train.")'''
+    return train
 
 
 def online2(dico):
     """
-    Rangement en ne prenant en compte que la longueur et la largeur des marchandises et on ne peut pas les trier au départ.
-    :param dico:
-    :return:
+    Fonction réalisée par Margot, elle n'est pas opérationnelle
+    Rangement en ne prenant en compte que la longueur et la largeur des marchandises et on ne peut pas les trier au
+    départ.
+    :param dico: Un dictionnaire comportant tous les objets à mettre dans le train
+    :return: Une liste de liste qui correspond au train et aux wagons remplis
     """
     train = []
     longueur_wagon = 11.583
@@ -98,7 +91,7 @@ def online2(dico):
             train.append([item, dico[item]])
         else:
             for i in range(len(train)):
-
+                # Vérification que les dimensions de l'objet rentrent dans le wagon
                 if tab_longueur[i] > float(dico2[item][0]):
                     tab_longueur[i] -= float(dico2[item][0])
                     train[i].append([item, dico[item]])
@@ -118,44 +111,70 @@ def online2(dico):
                 tab_largeur.append(largeur_wagon - float(dico2[item][1]))
                 train.append([item, dico[item]])
 
-    print(train)
+    #print(train)
     print("On a", len(train), "wagons pour mettre tous les objets dans le train.")
+    return train
 
 
 def online2_emir(dico):
     """
     Rangement en ne prenant en compte que la longueur et la largeur des marchandises et on ne peut pas les trier au départ.
-    :param dico: Dictionnaire avec les dimensions des marchandises.
-    :return: Liste de wagons remplis.
+    :param dico: Un dictionnaire comportant tous les objets à mettre dans le train
+    :return: Une liste de liste qui correspond au train et aux wagons remplis
     """
-
+    # Dimension du wagon en multiple 0.1
     longueur_wagon = round(11.583 / 0.1)
     largeur_wagon = round(2.294 / 0.1)
 
     def creer_wagon():
-        return [[0] * largeur_wagon for w in range(longueur_wagon)]
+        """
+        Création d'un wagon vide
+        :return: Un wagon vide, un dictionnaire avec l'espace du wagon sous forme de matrice et les informations des
+        objets présents
+        """
+        return {
+            "espace": [[0] * largeur_wagon for w in range(longueur_wagon)],
+            "items": []
+        }
 
+    # Initialisation du train avec le premier wagon
     train = []
     wagon = creer_wagon()
     train.append(wagon)
 
-    def placer_objet(wagon, longueur_objet, largeur_objet):
+    def placer_objet(wagon, longueur_objet, largeur_objet, nom_objet):
+        """
+        Placer un objet dans le wagon
+        :param wagon: Le wagon (une matrice) dans lequel on veut mettre l'objet
+        :param longueur_objet: La longueur de l'objet à ajouter
+        :param largeur_objet: La largeur de l'objet à ajouter
+        :param nom_objet: La désignation de l'objet
+        :return: True si réussi sinon False
+        """
+        # Parcours du wagon entier où l'objet pourrait être placé sans dépasser ses dimensions
         for i in range(longueur_wagon - longueur_objet + 1):
             for j in range(largeur_wagon - largeur_objet + 1):
-                if all(wagon[i + x][j + y] == 0 for x in range(longueur_objet) for y in range(largeur_objet)):
+                # Vérification de l'espace libre pour l'objet
+                if all(wagon["espace"][i + x][j + y] == 0 for x in range(longueur_objet) for y in range(largeur_objet)):
+                    # Mise en place de l'objet dans le wagon
                     for x in range(longueur_objet):
                         for y in range(largeur_objet):
-                            wagon[i + x][j + y] = 1
+                            wagon["espace"][i + x][j + y] = 1
+                    wagon["items"].append(nom_objet)
                     return True
         return False
 
+    # Recherche les dimensions des objets dans le dictionnaire
     for item in dico.keys():
         longueur_objet = round(float(dico[item][0]) / 0.1)
         largeur_objet = round(float(dico[item][1]) / 0.1)
+
+        # Placer l'objet dans chaque wagon existant
         for wagon in train:
             if placer_objet(wagon, longueur_objet, largeur_objet):
                 break
         else:
+            # Création d'un nouveau wagon si l'objet ne peut pas être placé dans les wagons existants
             new_wagon = creer_wagon()
             train.append(new_wagon)
             if not placer_objet(new_wagon, longueur_objet, largeur_objet):
@@ -169,55 +188,82 @@ def online3(dico):
     """
     Rangement en ne prenant en compte toutes les dimensions (longueur, largeur, hauteur) des marchandises et on ne peut
     pas les trier au départ.
-    :param dico:
-    :return:
+    :param dico: Un dictionnaire comportant tous les objets à mettre dans le train
+    :return: Une liste de liste qui correspond au train et aux wagons remplis
     """
+    # Dimension du wagon en multiple 0.1
     longueur_wagon = round(11.583 / 0.1)
     largeur_wagon = round(2.294 / 0.1)
     hauteur_wagon = round(2.569 / 0.1)
 
     def creer_wagon():
-        return [[[0] * hauteur_wagon for w in range(largeur_wagon)] for w in range(longueur_wagon)]
+        """
+        Création d'un wagon vide
+        :return: Un wagon vide, un dictionnaire avec l'espace du wagon sous forme de matrice et les informations des
+            objets présents
+        """
+        return {
+            "espace": [[[0] * hauteur_wagon for w in range(largeur_wagon)] for w in range(longueur_wagon)],
+            "items": []
+        }
 
+    # Initialisation du train avec le premier wagon
     train = []
     wagon = creer_wagon()
     train.append(wagon)
 
-    def placer_objet(wagon, longueur_objet, largeur_objet, hauteur_objet):
+    def placer_objet(wagon, longueur_objet, largeur_objet, hauteur_objet, nom_objet):
+        """
+        Placer un objet dans le wagon
+        :param wagon: Le wagon (une matrice) dans lequel on veut mettre l'objet
+        :param longueur_objet: La longueur de l'objet à ajouter
+        :param largeur_objet: La largeur de l'objet à ajouter
+        :param hauteur_objet: La hauteur de l'objet à ajouter
+        :param nom_objet: La désignation de l'objet
+        :return: True si réussi sinon False
+        """
+        # Parcours du wagon entier où l'objet pourrait être placé sans dépasser ses dimensions
         for i in range(longueur_wagon - longueur_objet + 1):
             for j in range(largeur_wagon - largeur_objet + 1):
                 for k in range(hauteur_wagon - hauteur_objet + 1):
-                    if all(wagon[i + x][j + y][k + z] == 0 for x in range(longueur_objet) for y in range(largeur_objet)
-                           for z in range(hauteur_objet)):
+                    # Vérification de l'espace libre pour l'objet
+                    if all(wagon["espace"][i + x][j + y][k + z] == 0 for x in range(longueur_objet) for y in
+                           range(largeur_objet) for z in range(hauteur_objet)):
+                        # Mise en place de l'objet dans le wagon
                         for x in range(longueur_objet):
                             for y in range(largeur_objet):
                                 for z in range(hauteur_objet):
-                                    wagon[i + x][j + y][k + z] = 1
+                                    wagon["espace"][i + x][j + y][k + z] = 1
+                        wagon["items"].append(nom_objet)
                         return True
         return False
 
+    # Recherche les dimensions des objets dans le dictionnaire
     for item in dico.keys():
         longueur_objet = round(float(dico[item][0]) / 0.1)
         largeur_objet = round(float(dico[item][1]) / 0.1)
         hauteur_objet = round(float(dico[item][2]) / 0.1)
+
+        # Placer l'objet dans chaque wagon existant
         for wagon in train:
-            if placer_objet(wagon, longueur_objet, largeur_objet, hauteur_objet):
+            if placer_objet(wagon, longueur_objet, largeur_objet, hauteur_objet, item):
                 break
         else:
+            # Création d'un nouveau wagon si l'objet ne peut pas être placé dans les wagons existants
             new_wagon = creer_wagon()
             train.append(new_wagon)
-            if not placer_objet(new_wagon, longueur_objet, largeur_objet, hauteur_objet):
+            if not placer_objet(new_wagon, longueur_objet, largeur_objet, hauteur_objet, item):
                 break
 
+    print("On a", len(train), "wagons pour mettre tous les objets dans le train.")
     return train
-
 
 
 def offline1(dico):
     """
     Rangement en ne prenant en compte que la longueur des marchandises et on peut les trier au départ
-    :param dico:
-    :return:
+    :param dico: Un dictionnaire comportant tous les objets à mettre dans le train
+    :return: Une liste de liste qui correspond au train et aux wagons remplis
     """
     train = []
     longueur_wagon = 11.583
@@ -263,51 +309,72 @@ def offline1(dico):
 
     # Calcul estimation du temps de calcul
     print("Le nombre d'opérations maximale est :", nb_op)  # => 739 opérations
-    print("Le temps maximal estimé pour cet algo est ", nb_op * 1e-6)  # => 7.39e-4 s
+    print("Le temps maximal estimé pour cet algo est ", nb_op * 1e-7)  # => 7.39e-5 s
 
 
 def offline2(dico):
     """
     Rangement en ne prenant en compte que la longueur des marchandises et on peut les trier au départ
-    :param dico:
-    :return:
+    :param dico: Un dictionnaire comportant tous les objets à mettre dans le train
+    :return: Une liste de liste qui correspond au train et aux wagons remplis
     """
 
-    train = []
-    longueur = 0
-    wagon = []
-    objet_enleve = []
-    num = 0
-
+    # Tri du dictionnaire en fonction de la surface de chaque objet dans l'ordre décroissant
     dico_tri = sorted(dico.items(), key=lambda objet: objet[1][0] * objet[1][1], reverse=True)
 
+    # Dimension du wagon en multiple 0.1
     longueur_wagon = round(11.583 / 0.1)
     largeur_wagon = round(2.294 / 0.1)
 
     def creer_wagon():
-        return [[0] * largeur_wagon for w in range(longueur_wagon)]
+        """
+        Création d'un wagon vide
+        :return: Un wagon vide, un dictionnaire avec l'espace du wagon sous forme de matrice et les informations des
+        objets présents
+        """
+        return {
+            "espace": [[0] * largeur_wagon for w in range(longueur_wagon)],
+            "items": []
+        }
 
+    # Initialisation du train avec le premier wagon
     train = []
     wagon = creer_wagon()
     train.append(wagon)
 
-    def placer_objet(wagon, longueur_objet, largeur_objet):
+    def placer_objet(wagon, longueur_objet, largeur_objet, nom_objet):
+        """
+        Placer un objet dans le wagon
+        :param wagon: Le wagon (une matrice) dans lequel on veut mettre l'objet
+        :param longueur_objet: La longueur de l'objet à ajouter
+        :param largeur_objet: La largeur de l'objet à ajouter
+        :param nom_objet: La désignation de l'objet
+        :return: True si réussi sinon False
+        """
+        # Parcours du wagon entier où l'objet pourrait être placé sans dépasser ses dimensions
         for i in range(longueur_wagon - longueur_objet + 1):
             for j in range(largeur_wagon - largeur_objet + 1):
-                if all(wagon[i + x][j + y] == 0 for x in range(longueur_objet) for y in range(largeur_objet)):
+                # Vérification de l'espace libre pour l'objet
+                if all(wagon["espace"][i + x][j + y] == 0 for x in range(longueur_objet) for y in range(largeur_objet)):
+                    # Mise en place de l'objet dans le wagon
                     for x in range(longueur_objet):
                         for y in range(largeur_objet):
-                            wagon[i + x][j + y] = 1
+                            wagon["espace"][i + x][j + y] = 1
+                    wagon["items"].append(nom_objet)
                     return True
         return False
 
+    # Recherche les dimensions des objets dans le dictionnaire
     for item in dico_tri:
         longueur_objet = round(float(item[1][0]) / 0.1)
         largeur_objet = round(float(item[1][1]) / 0.1)
+
+        # Placer l'objet dans chaque wagon existant
         for wagon in train:
             if placer_objet(wagon, longueur_objet, largeur_objet):
                 break
         else:
+            # Création d'un nouveau wagon si l'objet ne peut pas être placé dans les wagons existants
             new_wagon = creer_wagon()
             train.append(new_wagon)
             if not placer_objet(new_wagon, longueur_objet, largeur_objet):
@@ -319,47 +386,76 @@ def offline2(dico):
 
 def offline3(dico):
     """
-    Rangement en ne prenant en compte toutes les dimensions (longueur, largeur, hauteur) des marchandises et on peut les
-    trier au départ
-    :return:
+    Rangement en ne prenant en compte toutes les dimensions (longueur, largeur, hauteur) des marchandises et on peut
+    les trier au départ
+    :param dico: Un dictionnaire comportant tous les objets à mettre dans le train
+    :return: Une liste de liste qui correspond au train et aux wagons remplis
     """
+    # Dimension du wagon en multiple 0.1
     longueur_wagon = round(11.583 / 0.1)
     largeur_wagon = round(2.294 / 0.1)
     hauteur_wagon = round(2.569 / 0.1)
 
     dico_tri = sorted(dico.items(), key=lambda objet: objet[1][0] * objet[1][1] * objet[1][2], reverse=True)
 
+    # Création d'un wagon vide
     def creer_wagon():
-        return [[[0] * hauteur_wagon for w in range(largeur_wagon)] for w in range(longueur_wagon)]
+        """
+        Création d'un wagon vide
+        :return: Un wagon vide, un dictionnaire avec l'espace du wagon sous forme de matrice et les informations des
+        objets présents
+        """
+        return {
+            "espace": [[[0] * hauteur_wagon for w in range(largeur_wagon)] for w in range(longueur_wagon)],
+            "items": []
+        }
 
+    # Initialisation du train avec le premier wagon
     train = []
     wagon = creer_wagon()
     train.append(wagon)
 
-    def placer_objet(wagon, longueur_objet, largeur_objet, hauteur_objet):
+    def placer_objet(wagon, longueur_objet, largeur_objet, hauteur_objet, nom_objet):
+        """
+        Placer un objet dans le wagon
+        :param wagon: Le wagon (une matrice) dans lequel on veut mettre l'objet
+        :param longueur_objet: La longueur de l'objet à ajouter
+        :param largeur_objet: La largeur de l'objet à ajouter
+        :param hauteur_objet: La hauteur de l'objet à ajouter
+        :param nom_objet: La désignation de l'objet
+        :return: True si réussi sinon False
+        """
+        # Parcours du wagon entier où l'objet pourrait être placé sans dépasser ses dimensions
         for i in range(longueur_wagon - longueur_objet + 1):
             for j in range(largeur_wagon - largeur_objet + 1):
                 for k in range(hauteur_wagon - hauteur_objet + 1):
-                    if all(wagon[i + x][j + y][k + z] == 0 for x in range(longueur_objet) for y in range(largeur_objet)
-                           for z in range(hauteur_objet)):
+                    # Vérification de l'espace libre pour l'objet
+                    if all(wagon["espace"][i + x][j + y][k + z] == 0 for x in range(longueur_objet) for y in
+                           range(largeur_objet) for z in range(hauteur_objet)):
+                        # Mise en place de l'objet dans le wagon
                         for x in range(longueur_objet):
                             for y in range(largeur_objet):
                                 for z in range(hauteur_objet):
-                                    wagon[i + x][j + y][k + z] = 1
+                                    wagon["espace"][i + x][j + y][k + z] = 1
+                        wagon["items"].append(nom_objet)
                         return True
         return False
 
+    # Recherche les dimensions des objets dans le dictionnaire
     for item in dico_tri:
         longueur_objet = round(float(item[1][0]) / 0.1)
         largeur_objet = round(float(item[1][1]) / 0.1)
         hauteur_objet = round(float(item[1][2]) / 0.1)
+
+        # Placer l'objet dans chaque wagon existant
         for wagon in train:
-            if placer_objet(wagon, longueur_objet, largeur_objet, hauteur_objet):
+            if placer_objet(wagon, longueur_objet, largeur_objet, hauteur_objet, item):
                 break
         else:
+            # Création d'un nouveau wagon si l'objet ne peut pas être placé dans les wagons existants
             new_wagon = creer_wagon()
             train.append(new_wagon)
-            if not placer_objet(new_wagon, longueur_objet, largeur_objet, hauteur_objet):
+            if not placer_objet(new_wagon, longueur_objet, largeur_objet, hauteur_objet, item):
                 break
 
     print("On a", len(train), "wagons pour mettre tous les objets dans le train.")

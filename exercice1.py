@@ -58,6 +58,7 @@ dico_exact = {
 
 
 #=============== FONCTIONS ==================
+
 def question1_2():
     n_objets = [1, 2, 10, 23]
     print("Question 1 :")
@@ -78,7 +79,7 @@ def question5(n):
 
     print("Le temps est d'environ: ",stop-start)
 
-def bruteforce(poids_max):
+def bruteforce(poids_max, dico):
     """
     Algorithme de recherche exacte trèèèèèèèèèèèèèèèès lent
     :param poids_max:
@@ -113,7 +114,7 @@ def bruteforce(poids_max):
 '''
 
 
-def recherche_locale(poids_max):
+def recherche_locale(poids_max, dico):
     """
     Méthode approchée plus "lente" que l'algorithme glouton
     :param poids_max:
@@ -143,7 +144,7 @@ def recherche_locale(poids_max):
     print(objetmax)
     print("Temps estimé pour cet algo :", nb_op*1e-7, "secondes")
 
-def algo_B(n):
+def algo_B(n, dico):
     """
     Deuxieme algo permettant de trier et sélectionnner le nombre d'objet à mettre dans le sac sans dépasser le poids
     en optimisant l'utilité max
@@ -183,6 +184,15 @@ def algo_B(n):
 # Algorithme exact
 
 def tree(dico, max_weight=0.6, current_weight=0, current_subset=set()):
+    """
+    Algorithme exact créé par Emir
+    Méthode récursive qui teste toutes les possiblités sous format d'arbre binaire
+    :param dico: dictionaire avec tous les objets que l'on peut mettre dans le sac
+    :param max_weight: poids maximal que peut porter le sac
+    :param current_weight: poids actuel du sac
+    :param current_subset: liste des objets présents dans le sac
+    :return:
+    """
     # Initialisation de la méthode yield
     if len(dico) == 0:
         yield current_subset, current_weight

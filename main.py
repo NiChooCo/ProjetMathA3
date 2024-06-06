@@ -12,7 +12,14 @@ from exercice2 import *
 
 
 if __name__ == '__main__':
+
+    # ================== Partie 1 =======================
+
+    # Question 1 et 2
+    n_objets = [1, 2, 10, 23]
     #question1_2()
+
+
 
     #m.question5(4000)
     """Estimations temps:
@@ -23,7 +30,7 @@ if __name__ == '__main__':
     """
 
     # Il faut tester
-    #tps = (2**23) * (2.5e-8) * 2
+    #tps = (2**23) * (2.5e-7) * 2
     #print('Le temps estimé pour tester toutes les combinaisons est :', tps, ' secondes.')
 
 
@@ -50,6 +57,8 @@ if __name__ == '__main__':
     #n.question10(5)
     # Temps d'exécution : 262.98826360702515
     #recherche_locale(2)
+
+    bruteforce(0.6, dico_objet)
 
     # Affichage des sous-ensembles
     #start_time = time.time()

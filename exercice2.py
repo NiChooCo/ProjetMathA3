@@ -3,6 +3,7 @@ import math
 from matplotlib import pyplot as plt
 import random
 
+
 def create_dico(datapath):
     """
     Créer un dictionnaire avec les données du csv
@@ -12,14 +13,15 @@ def create_dico(datapath):
     data = pd.read_csv(datapath, header=0, delimiter=";")
     new = {}
     for i in range(len(data)):
-        if(data["Désignation"][i] in new.keys()):
+        if (data["Désignation"][i] in new.keys()):
             new_name = data["Désignation"][i] + str(i)
             new[new_name] = [data["Longueur"][i], data["Largeur"][i], data["Hauteur"][i]]
         else:
             new[data["Désignation"][i]] = [data["Longueur"][i], data["Largeur"][i], data["Hauteur"][i]]
 
-    #print(new)
-    return(new)
+    # print(new)
+    return (new)
+
 
 # Pour cette partie utiliser First Fit decreasing et Best Fit decreasing
 
@@ -50,7 +52,6 @@ def online1(dico):
     print(tab_longueur)
     print("On a", len(train), "wagons pour mettre tous les objets dans le train.")
 
-
     '''for item in list(dico.keys()):
         for l in range(len(tab_longueur)-1):
             if tab_longueur[l] >= float(dico[item][0]) and tab_longueur[l] - float(dico[item][0]) >= 0:
@@ -69,6 +70,7 @@ def online1(dico):
 
     print(train)
     print("On a", len(train), "wagons pour mettre tous les objets dans le train.")'''
+
 
 def online2(dico):
     """
@@ -93,31 +95,32 @@ def online2(dico):
         if not train:
             tab_longueur.append(longueur_wagon - float(dico2[item][0]))
             tab_largeur.append(largeur_wagon - float(dico2[item][1]))
-            train.append([item])
+            train.append([item, dico[item]])
         else:
             for i in range(len(train)):
 
-                if tab_longueur[i] > float(dico2[item][0]) and tab_longueur[i]-float(dico2[item][0])>0:
+                if tab_longueur[i] > float(dico2[item][0]):
                     tab_longueur[i] -= float(dico2[item][0])
-                    train[i].append(dico[item])
-                    #dico2.pop(item)
+                    train[i].append([item, dico[item]])
+                    # dico2.pop(item)
                     break
 
-                elif tab_largeur[i] > float(dico2[item][1]) and tab_largeur[i] - float(dico[item][1])>0:
+                elif tab_largeur[i] > float(dico2[item][1]):
                     tab_largeur[i] -= float(dico2[item][1])
-                    train[i].append(dico[item])
+                    train[i].append([item, dico[item]])
                     tab_longueur[i] = longueur_wagon - float(dico2[item][0])
-                    #dico2.pop(item)
+                    # dico2.pop(item)
                     break
 
-                #print("Train à l'étape", i , "==<>",train[i])
+                # print("Train à l'étape", i , "==<>",train[i])
             else:
                 tab_longueur.append(longueur_wagon - float(dico2[item][0]))
                 tab_largeur.append(largeur_wagon - float(dico2[item][1]))
-                train.append(dico[item])
+                train.append([item, dico[item]])
 
     print(train)
     print("On a", len(train), "wagons pour mettre tous les objets dans le train.")
+
 
 def online2_emir(dico):
     """
@@ -126,8 +129,8 @@ def online2_emir(dico):
     :return: Liste de wagons remplis.
     """
 
-    longueur_wagon = round(11.583/0.1)
-    largeur_wagon = round(2.294/0.1)
+    longueur_wagon = round(11.583 / 0.1)
+    largeur_wagon = round(2.294 / 0.1)
 
     def creer_wagon():
         return [[0] * largeur_wagon for w in range(longueur_wagon)]
@@ -147,8 +150,8 @@ def online2_emir(dico):
         return False
 
     for item in dico.keys():
-        longueur_objet = round(float(dico[item][0])/0.1)
-        largeur_objet = round(float(dico[item][1])/0.1)
+        longueur_objet = round(float(dico[item][0]) / 0.1)
+        largeur_objet = round(float(dico[item][1]) / 0.1)
         for wagon in train:
             if placer_objet(wagon, longueur_objet, largeur_objet):
                 break
@@ -158,6 +161,7 @@ def online2_emir(dico):
             if not placer_objet(new_wagon, longueur_objet, largeur_objet):
                 break
 
+    print("On a", len(train), "wagons pour mettre tous les objets dans le train.")
     return train
 
 
@@ -168,46 +172,45 @@ def online3(dico):
     :param dico:
     :return:
     """
-    merch = dico.copy()
-    wagon = []
-    dimensions_wagon = [11.583, 2.294]
-    shelf = []
+    longueur_wagon = round(11.583 / 0.1)
+    largeur_wagon = round(2.294 / 0.1)
+    hauteur_wagon = round(2.569 / 0.1)
+
+    def creer_wagon():
+        return [[[0] * hauteur_wagon for w in range(largeur_wagon)] for w in range(longueur_wagon)]
+
     train = []
-    shelf_size = [11.583, 0]
-    for item in merch.keys():
-        if not train:
-            if not wagon:
-                if not shelf:
-                    shelf.append(item)
-                    if shelf_size[1] < merch[item][1]:
-                        shelf_size[1] = merch[item][1]
-                    print("aaaaa")
-                else:
-                    if shelf_size[0] >= merch[item][0]:
-                        shelf.append(item)
-                        shelf_size[0] -= merch[item][0]
-                        if shelf_size[1] < merch[item][1]:
-                            shelf_size[1] = merch[item][1]
-                        print("bbbbb")
-                    else:
-                        wagon.append(shelf)
-                        dimensions_wagon[1] -= shelf_size[1]
-                        shelf = [item]
-                        shelf_size[0] = dimensions_wagon[0] - merch[item][0]
-                        shelf_size[1] = 0
-                        print("ccccc")
-            else:
-                if dimensions_wagon[1] >= shelf_size[1]:
-                    wagon.append(shelf)
-                    dimensions_wagon[1] -= shelf_size[1]
-                    print("eeeee")
-                else:
-                    train.append(wagon)
-                    wagon = [shelf]
-                    dimensions_wagon[1] = 2.294 - shelf_size[1]
-                    print("fffff")
-    print(train)
-    print(len(train))
+    wagon = creer_wagon()
+    train.append(wagon)
+
+    def placer_objet(wagon, longueur_objet, largeur_objet, hauteur_objet):
+        for i in range(longueur_wagon - longueur_objet + 1):
+            for j in range(largeur_wagon - largeur_objet + 1):
+                for k in range(hauteur_wagon - hauteur_objet + 1):
+                    if all(wagon[i + x][j + y][k + z] == 0 for x in range(longueur_objet) for y in range(largeur_objet)
+                           for z in range(hauteur_objet)):
+                        for x in range(longueur_objet):
+                            for y in range(largeur_objet):
+                                for z in range(hauteur_objet):
+                                    wagon[i + x][j + y][k + z] = 1
+                        return True
+        return False
+
+    for item in dico.keys():
+        longueur_objet = round(float(dico[item][0]) / 0.1)
+        largeur_objet = round(float(dico[item][1]) / 0.1)
+        hauteur_objet = round(float(dico[item][2]) / 0.1)
+        for wagon in train:
+            if placer_objet(wagon, longueur_objet, largeur_objet, hauteur_objet):
+                break
+        else:
+            new_wagon = creer_wagon()
+            train.append(new_wagon)
+            if not placer_objet(new_wagon, longueur_objet, largeur_objet, hauteur_objet):
+                break
+
+    return train
+
 
 
 def offline1(dico):
@@ -221,7 +224,7 @@ def offline1(dico):
     longueur = 0
     wagon = []
     objet_enleve = []
-    num=0
+    num = 0
 
     dico_tri = sorted(dico.items(), key=lambda objet: objet[1][0], reverse=True)
 
@@ -235,7 +238,7 @@ def offline1(dico):
         nb_op += 4
 
         for i in range(len(dico_tri)):
-            if(dico_tri[i][1][0] + longueur <= longueur_wagon):
+            if (dico_tri[i][1][0] + longueur <= longueur_wagon):
                 wagon.append(dico_tri[i])
                 longueur += dico_tri[i][1][0]
                 objet_enleve.append(i)
@@ -243,14 +246,14 @@ def offline1(dico):
 
         rang = 0
         for objet in objet_enleve:
-            #print("rang == ", objet, " longeur dico ==", len(dico_tri))
-            dico_tri.pop(objet-rang)
+            # print("rang == ", objet, " longeur dico ==", len(dico_tri))
+            dico_tri.pop(objet - rang)
             rang += 1
             nb_op += 2
 
         objet_enleve.clear()
 
-        #print("Le wagon numéro:",num, "est ", wagon, "et sa longueur est :", longueur)
+        # print("Le wagon numéro:",num, "est ", wagon, "et sa longueur est :", longueur)
         train.append(wagon)
         wagon.clear()
         longueur = 0
@@ -259,8 +262,9 @@ def offline1(dico):
     print("On a", len(train), "wagons pour mettre tous les objets dans le train.")
 
     # Calcul estimation du temps de calcul
-    print("Le nombre d'opérations maximale est :", nb_op) # => 739 opérations
-    print("Le temps maximal estimé pour cet algo est ", nb_op*1e-6) # => 7.39e-4 s
+    print("Le nombre d'opérations maximale est :", nb_op)  # => 739 opérations
+    print("Le temps maximal estimé pour cet algo est ", nb_op * 1e-6)  # => 7.39e-4 s
+
 
 def offline2(dico):
     """
@@ -268,8 +272,6 @@ def offline2(dico):
     :param dico:
     :return:
     """
-    longueur_wagon = 11.583
-    largeur_wagon = 2.294
 
     train = []
     longueur = 0
@@ -277,7 +279,42 @@ def offline2(dico):
     objet_enleve = []
     num = 0
 
-    dico_tri = sorted(dico.items(), key=lambda objet: objet[1][0]*objet[1][1], reverse=True)
+    dico_tri = sorted(dico.items(), key=lambda objet: objet[1][0] * objet[1][1], reverse=True)
+
+    longueur_wagon = round(11.583 / 0.1)
+    largeur_wagon = round(2.294 / 0.1)
+
+    def creer_wagon():
+        return [[0] * largeur_wagon for w in range(longueur_wagon)]
+
+    train = []
+    wagon = creer_wagon()
+    train.append(wagon)
+
+    def placer_objet(wagon, longueur_objet, largeur_objet):
+        for i in range(longueur_wagon - longueur_objet + 1):
+            for j in range(largeur_wagon - largeur_objet + 1):
+                if all(wagon[i + x][j + y] == 0 for x in range(longueur_objet) for y in range(largeur_objet)):
+                    for x in range(longueur_objet):
+                        for y in range(largeur_objet):
+                            wagon[i + x][j + y] = 1
+                    return True
+        return False
+
+    for item in dico_tri:
+        longueur_objet = round(float(item[1][0]) / 0.1)
+        largeur_objet = round(float(item[1][1]) / 0.1)
+        for wagon in train:
+            if placer_objet(wagon, longueur_objet, largeur_objet):
+                break
+        else:
+            new_wagon = creer_wagon()
+            train.append(new_wagon)
+            if not placer_objet(new_wagon, longueur_objet, largeur_objet):
+                break
+
+    print("On a", len(train), "wagons pour mettre tous les objets dans le train.")
+    return train
 
 
 def offline3(dico):
@@ -286,14 +323,44 @@ def offline3(dico):
     trier au départ
     :return:
     """
-    longueur_wagon = 11.583
-    largeur_wagon = 2.294
-    hauteur_wagon = 2.569
+    longueur_wagon = round(11.583 / 0.1)
+    largeur_wagon = round(2.294 / 0.1)
+    hauteur_wagon = round(2.569 / 0.1)
+
+    dico_tri = sorted(dico.items(), key=lambda objet: objet[1][0] * objet[1][1] * objet[1][2], reverse=True)
+
+    def creer_wagon():
+        return [[[0] * hauteur_wagon for w in range(largeur_wagon)] for w in range(longueur_wagon)]
 
     train = []
-    longueur = 0
-    wagon = []
-    objet_enleve = []
-    num = 0
+    wagon = creer_wagon()
+    train.append(wagon)
 
-    dico_tri = sorted(dico.items(), key=lambda objet: objet[1][0] * objet[1][1]*objet[1][2], reverse=True)
+    def placer_objet(wagon, longueur_objet, largeur_objet, hauteur_objet):
+        for i in range(longueur_wagon - longueur_objet + 1):
+            for j in range(largeur_wagon - largeur_objet + 1):
+                for k in range(hauteur_wagon - hauteur_objet + 1):
+                    if all(wagon[i + x][j + y][k + z] == 0 for x in range(longueur_objet) for y in range(largeur_objet)
+                           for z in range(hauteur_objet)):
+                        for x in range(longueur_objet):
+                            for y in range(largeur_objet):
+                                for z in range(hauteur_objet):
+                                    wagon[i + x][j + y][k + z] = 1
+                        return True
+        return False
+
+    for item in dico_tri:
+        longueur_objet = round(float(item[1][0]) / 0.1)
+        largeur_objet = round(float(item[1][1]) / 0.1)
+        hauteur_objet = round(float(item[1][2]) / 0.1)
+        for wagon in train:
+            if placer_objet(wagon, longueur_objet, largeur_objet, hauteur_objet):
+                break
+        else:
+            new_wagon = creer_wagon()
+            train.append(new_wagon)
+            if not placer_objet(new_wagon, longueur_objet, largeur_objet, hauteur_objet):
+                break
+
+    print("On a", len(train), "wagons pour mettre tous les objets dans le train.")
+    return train

@@ -83,3 +83,52 @@ def recherche_locale(poids_max):
         nb_op += 3
     print(objetmax)
     print("Temps estimé pour cet algo :", nb_op*1e-7, "secondes")
+
+
+def online3(dico):
+    """
+    Rangement en ne prenant en compte toutes les dimensions (longueur, largeur, hauteur) des marchandises et on ne peut
+    pas les trier au départ.
+    :param dico:
+    :return:
+    """
+    merch = dico.copy()
+    wagon = []
+    dimensions_wagon = [11.583, 2.294]
+    shelf = []
+    train = []
+    shelf_size = [11.583, 0]
+    for item in merch.keys():
+        if not train:
+            if not wagon:
+                if not shelf:
+                    shelf.append(item)
+                    if shelf_size[1] < merch[item][1]:
+                        shelf_size[1] = merch[item][1]
+                    print("aaaaa")
+                else:
+                    if shelf_size[0] >= merch[item][0]:
+                        shelf.append(item)
+                        shelf_size[0] -= merch[item][0]
+                        if shelf_size[1] < merch[item][1]:
+                            shelf_size[1] = merch[item][1]
+                        print("bbbbb")
+                    else:
+                        wagon.append(shelf)
+                        dimensions_wagon[1] -= shelf_size[1]
+                        shelf = [item]
+                        shelf_size[0] = dimensions_wagon[0] - merch[item][0]
+                        shelf_size[1] = 0
+                        print("ccccc")
+            else:
+                if dimensions_wagon[1] >= shelf_size[1]:
+                    wagon.append(shelf)
+                    dimensions_wagon[1] -= shelf_size[1]
+                    print("eeeee")
+                else:
+                    train.append(wagon)
+                    wagon = [shelf]
+                    dimensions_wagon[1] = 2.294 - shelf_size[1]
+                    print("fffff")
+    print(train)
+    print(len(train))

@@ -32,7 +32,7 @@ def create_dico(datapath):
 
 def online1(dico):
     """
-    Fonction réalisée par Nicolas
+    Fonction réalisée par Nicolas assisté par Margot
     Rangement en ne prenant en compte que la longueur des marchandises et on ne peut pas les trier au départ.
     :param dico: Un dictionnaire comportant tous les objets à mettre dans le train
     :return: Une liste de liste qui correspond au train et aux wagons remplis
@@ -119,6 +119,7 @@ def online2(dico):
 
 def online2_emir(dico):
     """
+    Fonction réalisée par Emir
     Rangement en ne prenant en compte que la longueur et la largeur des marchandises et on ne peut pas les trier au départ.
     :param dico: Un dictionnaire comportant tous les objets à mettre dans le train
     :return: Une liste de liste qui correspond au train et aux wagons remplis
@@ -187,6 +188,7 @@ def online2_emir(dico):
 
 def online3(dico):
     """
+    Fonction réalisé par Emir et assisté de Margot
     Rangement en ne prenant en compte toutes les dimensions (longueur, largeur, hauteur) des marchandises et on ne peut
     pas les trier au départ.
     :param dico: Un dictionnaire comportant tous les objets à mettre dans le train
@@ -265,6 +267,7 @@ def online3(dico):
 
 def offline1(dico):
     """
+    Fonction réalisé Margot assistée par Nicolas
     Rangement en ne prenant en compte que la longueur des marchandises et on peut les trier au départ
     :param dico: Un dictionnaire comportant tous les objets à mettre dans le train
     :return: Une liste de liste qui correspond au train et aux wagons remplis
@@ -318,6 +321,7 @@ def offline1(dico):
 
 def offline2(dico):
     """
+    Fonction réalisée par Emir et modifiée par Margot pour la partie de tri
     Rangement en ne prenant en compte que la longueur des marchandises et on peut les trier au départ
     :param dico: Un dictionnaire comportant tous les objets à mettre dans le train
     :return: Une liste de liste qui correspond au train et aux wagons remplis
@@ -390,6 +394,7 @@ def offline2(dico):
 
 def offline3(dico):
     """
+    Fonction réalisée par Emir et modifiée par Margot pour la partie de tri
     Rangement en ne prenant en compte toutes les dimensions (longueur, largeur, hauteur) des marchandises et on peut
     les trier au départ
     :param dico: Un dictionnaire comportant tous les objets à mettre dans le train

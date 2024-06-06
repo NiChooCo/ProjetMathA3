@@ -2,6 +2,7 @@ import pandas as pd
 import math
 from matplotlib import pyplot as plt
 import random
+from time import time
 
 
 def create_dico(datapath):
@@ -41,24 +42,29 @@ def online1(dico):
     train = []
     longueur_wagon = 11.583
     tab_longueur = []
+    dimension_totale = 0
 
     for item in dico.keys():
         # Vérification que le train comporte un wagon
         if not train:
             tab_longueur.append(longueur_wagon - float(dico[item][0]))
+            dimension_totale += float(dico[item][0])
             train.append([item])
         else:
             for i in range(len(train)):
                 if tab_longueur[i] >= float(dico[item][0]):
                     tab_longueur[i] -= float(dico[item][0])
+                    dimension_totale += float(dico[item][0])
                     train[i].append(item)
                     break
             else:
                 tab_longueur.append(longueur_wagon - float(dico[item][0]))
+                dimension_totale += float(dico[item][0])
                 train.append([item])
 
     #print(train)
     #print(tab_longueur)
+    print("Dimensions non utilisées :", len(train) * longueur_wagon - dimension_totale, "mètres")
     print("On a", len(train), "wagons pour mettre tous les objets dans le train.")
 
     return train
@@ -116,6 +122,12 @@ def online2(dico):
     print("On a", len(train), "wagons pour mettre tous les objets dans le train.")
     return train
 
+def volume_libre_2d(wagon):
+    longueur_wagon = round(11.583/0.1)
+    largeur_wagon = round(2.294/0.1)
+
+    volume = sum(sum(1 for y in range(largeur_wagon) if wagon["espace"][x][y] == 0) for x in range(longueur_wagon))
+    return volume * 0.1 * 0.1
 
 def online2_emir(dico):
     """
@@ -173,18 +185,29 @@ def online2_emir(dico):
 
         # Placer l'objet dans chaque wagon existant
         for wagon in train:
-            if placer_objet(wagon, longueur_objet, largeur_objet):
+            if placer_objet(wagon, longueur_objet, largeur_objet, item):
                 break
         else:
             # Création d'un nouveau wagon si l'objet ne peut pas être placé dans les wagons existants
             new_wagon = creer_wagon()
             train.append(new_wagon)
-            if not placer_objet(new_wagon, longueur_objet, largeur_objet):
+            if not placer_objet(new_wagon, longueur_objet, largeur_objet, item):
                 break
 
     print("On a", len(train), "wagons pour mettre tous les objets dans le train.")
     return train
 
+
+def volume_libre_3d(wagon):
+    longueur_wagon = round(11.583/0.1)
+    largeur_wagon = round(2.294/0.1)
+    hauteur_wagon = round(2.569/0.1)
+
+    volume = sum(sum(sum(1 for z in range(hauteur_wagon)
+                         if wagon["espace"][x][y][z] == 0)
+                     for y in range(largeur_wagon))
+                 for x in range(longueur_wagon))
+    return volume * 0.1 * 0.1 * 0.1
 
 def online3(dico):
     """
@@ -279,6 +302,8 @@ def offline1(dico):
     objet_enleve = []
     num = 0
 
+    dimension_totale = 0
+
     dico_tri = sorted(dico.items(), key=lambda objet: objet[1][0], reverse=True)
 
     nb_op = 7
@@ -287,6 +312,7 @@ def offline1(dico):
         num += 1
         wagon.append(dico_tri[0])
         longueur += dico_tri[0][1][0]
+        dimension_totale += float(dico_tri[0][1][0])
         dico_tri.pop(0)
         nb_op += 4
 
@@ -294,6 +320,7 @@ def offline1(dico):
             if (dico_tri[i][1][0] + longueur <= longueur_wagon):
                 wagon.append(dico_tri[i])
                 longueur += dico_tri[i][1][0]
+                dimension_totale += float(dico_tri[i][1][0])
                 objet_enleve.append(i)
                 nb_op += 4
 
@@ -313,6 +340,8 @@ def offline1(dico):
         nb_op += 5
 
     print("On a", len(train), "wagons pour mettre tous les objets dans le train.")
+
+    print("Dimensions non utilisées :", len(train) * longueur_wagon - dimension_totale, "mètres")
 
     # Calcul estimation du temps de calcul
     print("Le nombre d'opérations maximale est :", nb_op)  # => 739 opérations
@@ -379,13 +408,13 @@ def offline2(dico):
 
         # Placer l'objet dans chaque wagon existant
         for wagon in train:
-            if placer_objet(wagon, longueur_objet, largeur_objet):
+            if placer_objet(wagon, longueur_objet, largeur_objet, item):
                 break
         else:
             # Création d'un nouveau wagon si l'objet ne peut pas être placé dans les wagons existants
             new_wagon = creer_wagon()
             train.append(new_wagon)
-            if not placer_objet(new_wagon, longueur_objet, largeur_objet):
+            if not placer_objet(new_wagon, longueur_objet, largeur_objet, item):
                 break
 
     print("On a", len(train), "wagons pour mettre tous les objets dans le train.")

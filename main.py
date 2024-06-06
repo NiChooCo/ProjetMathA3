@@ -85,6 +85,7 @@ if __name__ == '__main__':
 
     dico = create_dico("Donnees_marchandises.csv")
 
+    start = time()
     # Tests pour 1 dimension
 
     # offline1(dico)
@@ -92,18 +93,32 @@ if __name__ == '__main__':
 
     # Test pour 2 dimensions
 
-    # train = online2_emir(dico)
-    # for i, wagon in enumerate(train):
-    #   print(f"\nWagon {i + 1}:")
-    #   for j in wagon:
-    #       print(j)
 
     # train2 = online2(dico) # Ne fonctionne pas correctement
-    # train2 = offline2(dico)
+    # train2 = online2_emir(dico)
+    train2 = offline2(dico)
+
+    volume_total = 0
+    for i, wagon in enumerate(train2):
+        volume = volume_libre_2d(wagon)
+        volume_total += volume
+        print(f"Wagon {i + 1} contient les objets : {wagon['items']}")
+        print(f"Wagon {i + 1} : {wagon['espace']}")
+        print(f"Wagon {i + 1} a un volume libre de : {volume:.3f} m^2\n")
+    print(f"Volume total libre : {volume_total:.3f} m^2")
 
     # Tests pour 3 dimensions
     # train3 = online3(dico)
-    train3 = offline3(dico)
+    # train3 = offline3(dico)
 
-    for i, wagon in enumerate(train3):
-        print(f"Wagon {i + 1} contient : {wagon['items']}")
+
+    # volume_total = 0
+    # for i, wagon in enumerate(train3):
+    #     volume = volume_libre_3d(wagon)
+    #     volume_total += volume
+    #     print(f"Wagon {i + 1} contient les objets : {wagon['items']}")
+    #     print(f"Wagon {i + 1} a un volume libre de : {volume:.3f} m^3")
+    # print(f"Volume total libre : {volume_total:.3f} m^3")
+
+    end = time()
+    print(f"Temps d'exécution : {end-start:.15f} secondes")

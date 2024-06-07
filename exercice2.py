@@ -49,7 +49,7 @@ def online1(dico):
         if not train:
             tab_longueur.append(longueur_wagon - float(dico[item][0]))
             dimension_totale += float(dico[item][0])
-            train.append([item])
+            train.append(dico[item])
         else:
             for i in range(len(train)):
                 if tab_longueur[i] >= float(dico[item][0]):
@@ -340,7 +340,6 @@ def offline1(dico):
         nb_op += 5
 
     print("On a", len(train), "wagons pour mettre tous les objets dans le train.")
-
     print("Dimensions non utilisées :", len(train) * longueur_wagon - dimension_totale, "mètres")
 
     # Calcul estimation du temps de calcul

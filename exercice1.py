@@ -165,8 +165,8 @@ def bruteforce(poids_max, dico):
 def tree(dico, max_weight=0.6, current_weight=0, current_subset=set()):
     """
     Algorithme exact créé par Emir
-    Méthode récursive qui teste toutes les possiblités sous format d'arbre binaire
-    :param dico: dictionaire avec tous les objets que l'on peut mettre dans le sac
+    Méthode récursive qui teste toutes les possibilités sous format d'arbre binaire
+    :param dico: dictionnaire avec tous les objets que l'on peut mettre dans le sac
     :param max_weight: poids maximal que peut porter le sac
     :param current_weight: poids actuel du sac
     :param current_subset: liste des objets présents dans le sac
@@ -208,11 +208,14 @@ def recherche_locale(poids_max, dico):
     objetmax = []
     poidsmax = 0
     nb_op = 3
+
     for key in dico.keys():
         dico[key].append(dico[key][1] / dico[key][0])  # Ajout du ratio utilité/poids au dictionnaire
         nb_op += 1
+
     dico2 = dico.copy() # Copie du dictionnaire pour ne pas le modifier
     nb_op += 1
+
     while poidsmax < poids_max:
         ratiomax = 0
         for i in dico2.keys():
@@ -251,7 +254,7 @@ def algo_B(n, dico):
     :param n: poids max à mettre dans le sac
     :return:
     """
-    # Pour chaque nb_op modifié on à toujours +1 car on fait une opéation
+    # Pour chaque nb_op modifié on à toujours +1, car on fait une opération
     nb_op = 1
     poids_total = 0
     nb_op += 2

@@ -290,7 +290,7 @@ def online3(dico):
 
 def offline1(dico):
     """
-    Fonction réalisé Margot assistée par Nicolas
+    Fonction réalisée Margot assistée par Nicolas
     Rangement en ne prenant en compte que la longueur des marchandises et on peut les trier au départ
     :param dico: Un dictionnaire comportant tous les objets à mettre dans le train
     :return: Une liste de liste qui correspond au train et aux wagons remplis
